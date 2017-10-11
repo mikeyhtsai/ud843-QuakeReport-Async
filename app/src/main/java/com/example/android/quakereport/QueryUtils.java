@@ -50,7 +50,6 @@ class QueryUtils {
 
             // Getting JSON Array node
             JSONArray features = jsonObj.getJSONArray("features");
-            // TODO: Parse the response given by the SAMPLE_JSON_RESPONSE string and
             // build up a list of Earthquake objects with the corresponding data.
             for (int i=0; i<features.length();i++) {
                 JSONObject c = features.getJSONObject(i);
