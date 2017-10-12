@@ -56,6 +56,8 @@ class QueryUtils {
             for (int i=0; i<features.length();i++) {
                 JSONObject c = features.getJSONObject(i);
                 JSONObject p = c.getJSONObject("properties");
+                // Extract the value for the key called "url"
+                String url = p.getString("url");
                 String mag = String.valueOf(p.getDouble("mag"));
                 String location = p.getString("place");
              //   String time = String.valueOf(p.getInt("time"));
@@ -63,7 +65,7 @@ class QueryUtils {
                 Date dateObj = new Date(timeInMilliseconds);
                 SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM DD, yyyy");
                 String dateToDisplay = dateFormatter.format(dateObj);
-                earthquakes.add(new Earthquake(mag, location, dateToDisplay));
+                earthquakes.add(new Earthquake(mag, location, dateToDisplay, url));
             }
 
         } catch (JSONException e) {
