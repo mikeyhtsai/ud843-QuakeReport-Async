@@ -20,6 +20,4 @@ public class Earthquake {
     public String getLocation(){return mLocation;}
     public String getDate(){return mDate;}
 
-
-
 }

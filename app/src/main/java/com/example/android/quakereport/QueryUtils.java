@@ -6,7 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Helper methods related to requesting and receiving earthquake data from USGS.
@@ -56,8 +58,12 @@ class QueryUtils {
                 JSONObject p = c.getJSONObject("properties");
                 String mag = String.valueOf(p.getDouble("mag"));
                 String location = p.getString("place");
-                String time = String.valueOf(p.getInt("time"));
-                earthquakes.add(new Earthquake(mag, location, time));
+             //   String time = String.valueOf(p.getInt("time"));
+                long timeInMilliseconds = p.getInt("time");
+                Date dateObj = new Date(timeInMilliseconds);
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("MMM DD, yyyy");
+                String dateToDisplay = dateFormatter.format(dateObj);
+                earthquakes.add(new Earthquake(mag, location, dateToDisplay));
             }
 
         } catch (JSONException e) {
@@ -72,4 +78,40 @@ class QueryUtils {
         return earthquakes;
     }
 
+    static int getMagnitudeColor(String magnitude) {
+        int iMagnitude = (int) Double.parseDouble(magnitude);
+        int backColor = R.color.magnitude10plus;
+        switch (iMagnitude){
+            case 0:case 1:
+                backColor = R.color.magnitude1;
+                break;
+            case 2:
+            backColor = R.color.magnitude2;
+            break;
+            case 3:
+            backColor = R.color.magnitude3;
+            break;
+            case 4:
+            backColor = R.color.magnitude4;
+            break;
+            case 5:
+            backColor = R.color.magnitude5;
+            break;
+            case 6:
+            backColor = R.color.magnitude6;
+            break;
+            case 7:
+            backColor = R.color.magnitude7;
+            break;
+            case 8:
+            backColor = R.color.magnitude8;
+            break;
+            case 9:
+            backColor = R.color.magnitude9;
+            break;
+
+        }
+
+        return(backColor);
+    }
 }
