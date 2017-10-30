@@ -20,11 +20,13 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+
 
 public class EarthquakeActivity extends AppCompatActivity {
 
@@ -43,6 +45,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         setContentView(R.layout.earthquake_activity);
         ListView earthquakeListView = (ListView) findViewById(R.id.listEarthquake);
 
+        Log.v(LOG_TAG, "Creating Async Tasks ..");
         earthQuakeTask task = new earthQuakeTask();
         task.execute(USGS_REQUEST_URL);
 
@@ -80,6 +83,24 @@ public class EarthquakeActivity extends AppCompatActivity {
         earthquakeListView.setAdapter(adapter);
     }
 
+    //This is to show an error on the display if no Internet connection. Without this,
+    //It will just show an blank screen.
+
+    public void QuakeShowErrorMsg(String err)
+    {
+        // Find a reference to the {@link ListView} in the layout
+        ListView earthquakeListView = (ListView) findViewById(R.id.listEarthquake);
+        // Create an empty ArrayList that we can start adding earthquakes to
+        ArrayList<Earthquake> earthquakes = new ArrayList<>();
+
+        earthquakes.add(new Earthquake("11.0", err, "No response from server", "...."));
+        // Create a new {@link ArrayAdapter} of earthquakes
+        adapter = new EarthquakeAdapter(this, earthquakes);
+        // Set the adapter on the {@link ListView}
+        // so the list can be populated in the user interface
+        earthquakeListView.setAdapter(adapter);
+    }
+
     /**
      * {@link AsyncTask} to perform the network request on a background thread, and then
      * update the UI with the first earthquake in the response.
@@ -109,6 +130,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<Earthquake> result) {
             if (result == null) {
+                QuakeShowErrorMsg("Failed, No Internet connection?");
                 return;
             }
 

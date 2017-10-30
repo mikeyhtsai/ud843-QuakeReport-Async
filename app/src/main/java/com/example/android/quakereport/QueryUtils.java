@@ -76,7 +76,8 @@ class QueryUtils {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+
+          Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -87,6 +88,7 @@ class QueryUtils {
         }
         return jsonResponse;
     }
+
 
     /**
      * Convert the {@link InputStream} into a String which contains the
@@ -152,6 +154,7 @@ class QueryUtils {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
+         //   QuakeShowErrorMsg("Failed to get JSON results from Server");
             Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
             return null;
         }
